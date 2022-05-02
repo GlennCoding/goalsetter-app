@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import GoalModal from "../components/GoalModal";
 import { useAuth } from "../contexts/AuthContext";
 import { Goal, GoalsDTO } from "../utils/types";
 
@@ -11,6 +12,7 @@ const DashboardPage: NextPage = () => {
   const [token, setToken] = useAuth();
   const router = useRouter();
   const [goals, setGoals] = useState<Goal[]>();
+  const [openNewGoalModal, setOpenNewGoalModal] = useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -35,6 +37,8 @@ const DashboardPage: NextPage = () => {
     setToken(null);
     router.push("/");
   };
+
+  console.log(token);
 
   return (
     <>
@@ -70,6 +74,7 @@ const DashboardPage: NextPage = () => {
               <button
                 type="button"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-600 bg-white hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={() => setOpenNewGoalModal(true)}
               >
                 Add goals
               </button>
@@ -80,6 +85,7 @@ const DashboardPage: NextPage = () => {
         <main className="-mt-32">
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+              {!goals && <p className="text-center">Loading...</p>}
               {goals && goals.map((goal) => <div>{goal.text}</div>)}
               {goals && goals.length <= 0 && (
                 <p className="text-center">You currently don't have any goals 😮</p>
@@ -88,6 +94,8 @@ const DashboardPage: NextPage = () => {
           </div>
         </main>
       </div>
+
+      <GoalModal open={openNewGoalModal} setOpen={setOpenNewGoalModal} />
     </>
   );
 };
