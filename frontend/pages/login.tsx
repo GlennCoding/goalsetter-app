@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -10,6 +11,7 @@ type FormData = {
 };
 
 const LoginPage: NextPage = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
@@ -18,8 +20,8 @@ const LoginPage: NextPage = () => {
         email: data.email,
         password: data.password,
       })
-      .then((res) => console.log(res))
-      .catch((e) => {
+      .then(() => router.push("/dashboard"))
+      .catch(() => {
         toast.error("Invalid credentials");
       });
   };
