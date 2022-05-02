@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 export type LoginDTO = {
   _id: string;
   name: string;
@@ -23,3 +25,7 @@ export type CreateGoalDTO = Goal;
 export type UpdateGoalDTO = Goal;
 
 export type DeleteGoalDTO = Pick<Goal, "_id">;
+
+export type CustomAxiosError = AxiosError<{
+  message?: string;
+}>;

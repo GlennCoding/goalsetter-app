@@ -1,11 +1,11 @@
 import axios from "axios";
 import type { NextPage } from "next";
 import Link from "next/link";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useAuth } from "../contexts/AuthContext";
-import { LoginDTO } from "../utils/types";
+import { CustomAxiosError, LoginDTO } from "../utils/types";
 
 type FormData = {
   email: string;
@@ -27,8 +27,8 @@ const LoginPage: NextPage = () => {
         setToken(res.data.token);
         router.push("/dashboard");
       })
-      .catch(() => {
-        toast.error("Invalid credentials");
+      .catch((e: CustomAxiosError) => {
+        toast.error(e.response?.data.message || "Something went wrong");
       });
   };
 

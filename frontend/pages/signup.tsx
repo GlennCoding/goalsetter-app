@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useAuth } from "../contexts/AuthContext";
-import { SignupDTO } from "../utils/types";
+import { CustomAxiosError, SignupDTO } from "../utils/types";
 
 type FormData = {
   name: string;
@@ -29,8 +29,8 @@ const Home: NextPage = () => {
         setToken(res.data.token);
         router.push("/dashboard");
       })
-      .catch(() => {
-        toast.error("Invalid credentials");
+      .catch((e: CustomAxiosError) => {
+        toast.error(e.response?.data.message || "Something went wrong");
       });
   };
 

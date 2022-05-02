@@ -55,11 +55,11 @@ const DashboardPage: NextPage = () => {
               </div>
 
               <button
-                className="w-8 h-8 flex items-center justify-center bg-white rounded-full"
+                className="px-3 py-2 rounded-md text-sm font-medium text-white"
                 onClick={() => handleLogout()}
                 title="Logout"
               >
-                <UserIcon className="w-5 h-5 text-indigo-600" />
+                Logout
               </button>
             </div>
           </div>
@@ -82,7 +82,7 @@ const DashboardPage: NextPage = () => {
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
               {goals && goals.map((goal) => <div>{goal.text}</div>)}
               {goals && goals.length <= 0 && (
-                <p className="text-center">You currently don't have goals 😮</p>
+                <p className="text-center">You currently don't have any goals 😮</p>
               )}
             </div>
           </div>
