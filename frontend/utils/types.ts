@@ -5,7 +5,7 @@ export type LoginDTO = {
   token: string;
 };
 
-export type RegisterDTO = LoginDTO;
+export type SignupDTO = LoginDTO;
 
 export type Goal = {
   _id: string;

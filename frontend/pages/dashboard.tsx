@@ -8,7 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Goal, GoalsDTO } from "../utils/types";
 
 const DashboardPage: NextPage = () => {
-  const [token] = useAuth();
+  const [token, setToken] = useAuth();
   const router = useRouter();
   const [goals, setGoals] = useState<Goal[]>();
 
@@ -31,6 +31,11 @@ const DashboardPage: NextPage = () => {
     if (!token) router.push("/");
   }, [token]);
 
+  const handleLogout = () => {
+    setToken(null);
+    router.push("/");
+  };
+
   return (
     <>
       <div className="min-h-full">
@@ -48,22 +53,38 @@ const DashboardPage: NextPage = () => {
                   </Link>
                 </div>
               </div>
-              <div className="w-8 h-8 flex items-center justify-center bg-white rounded-full">
+
+              <button
+                className="w-8 h-8 flex items-center justify-center bg-white rounded-full"
+                onClick={() => handleLogout()}
+                title="Logout"
+              >
                 <UserIcon className="w-5 h-5 text-indigo-600" />
-              </div>
+              </button>
             </div>
           </div>
 
           <header className="py-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between">
               <h1 className="text-3xl font-bold text-white">Goals</h1>
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-600 bg-white hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Add goals
+              </button>
             </div>
           </header>
         </div>
 
         <main className="-mt-32">
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-            {goals && goals.map((goal) => <div>{goal.text}</div>)}
+            <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+              {goals && goals.map((goal) => <div>{goal.text}</div>)}
+              {goals && goals.length <= 0 && (
+                <p className="text-center">You currently don't have goals 😮</p>
+              )}
+            </div>
           </div>
         </main>
       </div>

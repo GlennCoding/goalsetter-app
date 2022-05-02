@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext";
+import { SignupDTO } from "../utils/types";
 
 type FormData = {
   name: string;
@@ -14,15 +16,19 @@ type FormData = {
 const Home: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<FormData>();
+  const [, setToken] = useAuth();
 
   const onSubmit = (data: FormData) => {
     axios
-      .post("http://localhost:8000/api/users", {
+      .post<SignupDTO>("http://localhost:8000/api/users", {
         name: data.name,
         email: data.email,
         password: data.password,
       })
-      .then(() => router.push("/dashboard"))
+      .then((res) => {
+        setToken(res.data.token);
+        router.push("/dashboard");
+      })
       .catch(() => {
         toast.error("Invalid credentials");
       });

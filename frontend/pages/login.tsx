@@ -15,7 +15,7 @@ type FormData = {
 const LoginPage: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<FormData>();
-  const [token, setToken] = useAuth();
+  const [, setToken] = useAuth();
 
   const onSubmit = (data: FormData) => {
     axios
