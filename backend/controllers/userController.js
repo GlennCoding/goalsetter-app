@@ -75,6 +75,13 @@ const getMe = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get me" })
 })
 
+// Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  })
+}
+
 module.exports = {
   registerUser,
   loginUser,
